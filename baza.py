@@ -1,24 +1,12 @@
-import sqlite3
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, declarative_base
 
-db = sqlite3.connect('parkovka_sber.db')
-cursor = db.cursor()
+engine = create_engine(
+    f'sqlite:///parkovka_sber.db'
+)
 
-async def db_baze():
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS polzovatel (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            last_name TEXT,
-            name TEXT,
-            otchestvo TEXT,
-            phone_number INTEGER
-        )               
-    """)
+local_session = sessionmaker(autoflush=False, autocommit=False, bind=engine)
 
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS cars (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            gos_nomer TEXT
-        )               
-    """)
+db = local_session()
 
-    db.commit()
+Base = declarative_base()
