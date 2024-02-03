@@ -5,7 +5,7 @@ import asyncio
 from baza import Base, engine, db
 from models import User
 
-API = '6890130536:AAGcnHoq5Oqvh-mBXyZXRBVLQrYcQq0eUFY'
+API = '6835397594:AAEE8QKEy8Yx0D-_HRXWGvNLMLDiAUN-V-U'
 
 bot = Bot(API)
 disp = Dispatcher(bot=bot)
@@ -37,7 +37,6 @@ async def start(message: types.Message):
     user.sm_penis = 17
     db.add(user)
     db.commit()
-
     if str(message.from_user.id) in admin_users_id:
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
         btn1 = types.KeyboardButton(text='Вывести данные 🗂️')
@@ -62,10 +61,7 @@ async def start(message: types.Message):
 @disp.message_handler(lambda message: message.text)
 async def commands_button(message: types.Message):
     if message.text == 'Вывести данные 🗂️':
-
-        with open('https://docs.google.com/document/d/1iectXmRwdJojmqtjC4vn7l19ecC5R_7brt863VfwMmo/edit') as file:
-            file.write("Hello")
-
+        
         markup = types.InlineKeyboardMarkup()
         btn1 = types.InlineKeyboardButton(text='Посмореть файл 🗂️', web_app=WebAppInfo(
             url='https://docs.google.com/document/d/1iectXmRwdJojmqtjC4vn7l19ecC5R_7brt863VfwMmo/edit'))
@@ -85,4 +81,4 @@ async def commands_button(message: types.Message):
 
 
 
-executor.start_polling(disp, skip_updates=True, on_startup=on_startap)
+executor.start_polling(disp, on_startup=on_startap)
