@@ -17,6 +17,23 @@ class Registration(StatesGroup):
 
 @disp.message_handler(commands=["start"])
 async def start(message: types.Message, state: FSMContext):
+    
+    db = sqlite3.connect('parkovka.db')
+    cursor = db.cursor()
+    
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS parking (
+            id INTEGER PRIMARY KEY,
+            Фамилие TEXT,
+            Имя TEXT,
+            Отчество TEXT,
+            Номер_телефона INTEGER
+        )
+    """)
+    
+    db.commit()
+    db.close()
+    
     # Сброс состояния FSM
     await state.finish()
     await message.answer(f"Привет @{message.from_user.username} 🤚\n\nДавайте для начала вас зарегистрируем ✍️")
